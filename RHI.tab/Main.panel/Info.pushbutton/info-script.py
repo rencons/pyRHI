@@ -31,7 +31,6 @@ from rpw import revit, ui
 import os
 import os.path as op
 
-import blank
 
 parent = op.dirname
 svg = parent(__file__) + r"\ba.svg"
@@ -43,12 +42,12 @@ output.get_output().set_height(500)
 output.get_output().center()
 out = script.get_output()
 out.print_image(svg)
-out.print_html('<h1 style="text-align:center;">Blank Architects Tools for Revit</h1>')
+out.print_html('<h1 style="text-align:center;">RHI Extension for pyRevit</h1>')
 
 #name = pyrevit._HostApplication.username()
 print(str(user) + ' : {}'.format(revit.username))
 print(str(Rvers) + ' : {}'.format(revit.version))
 print(str(Rvers) + ' : {}'.format(HOST_APP.subversion))
-print(str(Bvers) + ' : {}'.format(blank.get_version()))
+#print(str(Bvers) + ' : {}'.format(blank.get_version()))
 #print(revit.app)
 #print(revit.docs)
