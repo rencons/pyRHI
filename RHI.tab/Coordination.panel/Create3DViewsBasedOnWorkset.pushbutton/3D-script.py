@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # pylint: skip-file
 # by Roman Golev 
-# Blank Architects
+
 
 __doc__ = 'Создаёт 3D виды на основе видимости рабочих наборов. /Creates 3D views based on worksets.'
 __author__ = 'Roman Golev'

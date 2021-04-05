@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # pylint: skip-file
 # by Roman Golev 
-# Blank Architects
+
 
 #TODO:Create Shared Parameter of there is no such parameter in project
 

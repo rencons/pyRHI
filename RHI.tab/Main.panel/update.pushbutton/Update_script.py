@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # pylint: skip-file
 # by Roman Golev 
-# Blank Architects
 
 __doc__ = """Обновляет плагин до последней версии.\n
  ////////////////////////////////////// \n 
@@ -14,7 +13,6 @@ import os
 #from rpm.system.ui import UI
 #from pyrevit.coreutils.ribbon import ICON_LARGE
 from pyrevit import versionmgr
-import blank
 from pyrevit.versionmgr import updater
 from pyrevit.coreutils import git
 from pyrevit import forms
@@ -37,18 +35,18 @@ import os
 import os.path as op
 
 # Get installed version
-blankinstalledversion = blank.get_version()
+#installedversion = core.get_version()
 
-# Get versiob inside the github repository
-data = urllib2.urlopen('https://raw.githubusercontent.com/BlankArchitects/pyBlank/main/lib/blank/version')
+# Get version inside the github repository
+#data = urllib2.urlopen('')
 for line in data: 
-	blankgitversion = line
+	gitversion = line
 
 
 def __selfinit__(script_cmp, ui_button_cmp, __rvt__):
 	try:
 		has_update_icon = script_cmp.get_bundle_file('icon-hasupdates.png')
-		if blankgitversion != blankinstalledversion :
+		if gitversion != installedversion :
 			ui_button_cmp.set_icon(has_update_icon,
                                    icon_size=ribbon.ICON_LARGE)
 	except:
@@ -57,14 +55,14 @@ def __selfinit__(script_cmp, ui_button_cmp, __rvt__):
 
 
 
-if blankgitversion == blankinstalledversion :
-	notification = forms.alert(  'Установлена последняя версия расширения\n'
-								'BlankArchitects for Revit\n',
+if gitversion == installedversion :
+	notification = forms.alert( 'Установлена последняя версия расширения\n'
+								'RHI for Revit\n',
 								ok=False, yes=True, no=True)
 
 else:
 	notification = forms.alert( 'Обнаружена новая версия расширения\n'
-								'BlankArchitects for Revit\n'
+								'RHI for Revit\n'
 								''
 								'Для обновления необходимо продолжить\n'
 								'Новая версия будет распакована\n'
@@ -73,7 +71,7 @@ else:
 	if notification:
 		parent = op.dirname
 		#bat_updater_location = parent(__file__) + r"\update.bat"
-		bat_updater_location = r"\\10.10.50.30\shared$\Standards\01.BA STANDARDS\08.BIM STANDARDS\04.TEMPLATE\02.INSTALL_BA_PLUGIN\reinstall\update.bat"
+		#bat_updater_location = r""
 		p = Process()
 		p.StartInfo.UseShellExecute = False
 		p.StartInfo.RedirectStandardOutput = False

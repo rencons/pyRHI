@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # pylint: skip-file
 # by Roman Golev 
-# Blank Architects
 
 from pyrevit import HOST_APP
 from Autodesk.Revit.ApplicationServices import LanguageType
