@@ -1,0 +1,19 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Add Shared Parameters"
+        Width="400" ResizeMode="NoResize" SizeToContent="Height" Height="260.411">
+    <StackPanel Margin="10">
+        <Label Content="Choose a Set of Shared Parameters" Margin="0,0,-0,0" Height="25" />
+        <RadioButton x:Name="checkbox1_value" Content="Set 1" IsChecked="True"/>
+        <RadioButton x:Name="checkbox2_value" Content="Set 2"/>
+        <RadioButton x:Name="checkbox3_value" Content="Set 3"/>
+        <RadioButton x:Name="checkbox4_value" Content="Set 4"/>
+        <RadioButton x:Name="checkbox5_value" Content="Set 5"/>
+        <RadioButton x:Name="checkbox6_value" Content="Set 6"/>
+        <RadioButton x:Name="checkbox7_value" Content="Set 7"/>
+        <RadioButton x:Name="checkbox8_value" Content="Set 8"/>
+        <RadioButton x:Name="checkbox9_value" Content="Set 9"/>
+        <RadioButton x:Name="checkbox10_value" Content="Set 10"/>
+        <Button Content="Add Shared Parameters to the active Project" Height="20" Margin="0,10,0,0" Click="click" />
+    </StackPanel>
+</Window>
