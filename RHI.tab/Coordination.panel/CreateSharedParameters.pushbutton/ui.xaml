@@ -4,10 +4,10 @@
         Width="400" ResizeMode="NoResize" SizeToContent="Height" Height="260.411">
     <StackPanel Margin="10">
         <Label Content="Choose a Set of Shared Parameters" Margin="0,0,-0,0" Height="25" />
-        <RadioButton x:Name="checkbox1_value" Content="Set 1" IsChecked="True"/>
-        <RadioButton x:Name="checkbox2_value" Content="Set 2"/>
-        <RadioButton x:Name="checkbox3_value" Content="Set 3"/>
-        <RadioButton x:Name="checkbox4_value" Content="Set 4"/>
+        <RadioButton x:Name="checkbox1_value" Content="General" IsChecked="True"/>
+        <RadioButton x:Name="checkbox2_value" Content="Technology TH"/>
+        <RadioButton x:Name="checkbox3_value" Content="Concrete KZH"/>
+        <RadioButton x:Name="checkbox4_value" Content="Instrumental - Equipment"/>
         <RadioButton x:Name="checkbox5_value" Content="Set 5"/>
         <RadioButton x:Name="checkbox6_value" Content="Set 6"/>
         <RadioButton x:Name="checkbox7_value" Content="Set 7"/>

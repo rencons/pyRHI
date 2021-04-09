@@ -16,7 +16,7 @@ else:
     lang = "EN"
 
 __doc__ = """ Информация о проекте, программе и расширении / Basic Information about current project and plug-in"""
-__title__ = "Extension Info"
+__title__ = "RHI\nExtension Info"
 __author__ = "Roman Golev"
 __context__ = 'zero-doc'
 
@@ -30,9 +30,17 @@ from rpw import revit, ui
 import os
 import os.path as op
 
+# Import WPF
+import clr
+clr.AddReference('IronPython.Wpf')
+import wpf
+from System import Windows
+clr.AddReference('System.Windows.Forms')
+clr.AddReference('IronPython.Wpf')
+
 
 parent = op.dirname
-svg = parent(__file__) + r"\ba.svg"
+svg = parent(__file__) + r"\rhi.svg"
 
 style = 'img {max-width: 589px; padding: 25px 0} span {display: block; text-align: center;}'
 output.get_output().add_style(style)
@@ -47,6 +55,18 @@ out.print_html('<h1 style="text-align:center;">RHI Extension for pyRevit</h1>')
 print(str(user) + ' : {}'.format(revit.username))
 print(str(Rvers) + ' : {}'.format(revit.version))
 print(str(Rvers) + ' : {}'.format(HOST_APP.subversion))
-#print(str(Bvers) + ' : {}'.format(blank.get_version()))
-#print(revit.app)
-#print(revit.docs)
+
+
+class MyWindow(WPFWindow):
+    def __init__(self,xaml_file_name):
+        WPFWindow.__init__(self, xaml_file_name)
+    # @property
+    # def checkbox1(self):
+	# 	return self.checkbox1_value.IsChecked
+    # @property
+    # def checkbox2(self):
+	# 	return self.checkbox2_value.IsChecked
+
+
+# let's show the window (modal)
+MyWindow('ui.xaml').ShowDialog()

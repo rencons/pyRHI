@@ -24,6 +24,7 @@ import System
 clr.AddReference('RevitAPIUI')
 from Autodesk.Revit import Creation
 
+# Import WPF
 clr.AddReference('IronPython.Wpf')
 import wpf
 from System import Windows
@@ -130,17 +131,17 @@ defflatname = [x.Name for x in param]
 grpname = [l.OwnerGroup.Name for l in param]
 param_name = [pp.Name for pp in param]
 
-param1 = [param[param_name.index('BA_AI_RoomName')], \
-          param[param_name.index('BA_AI_FinishingType')], \
-		  param[param_name.index('BA_AI_RoomNumber')]]
-param2 = [param[param_name.index('BA_AI_RoomID')]]
-param3 = [param[param_name.index('BA_AI_RoomFinishingArea-Floor')], \
-		  param[param_name.index('BA_AI_RoomFinishingDescription-Ceiling')], \
-		  param[param_name.index('BA_AI_RoomFinishingArea-Ceiling')], \
-		  param[param_name.index('BA_AI_RoomFinishingDescription-Wall')], \
-		  param[param_name.index('BA_AI_RoomFinishingArea-Wall')], \
-		  param[param_name.index('BA_AI_RoomFinishingDescription-Floor')]]
-param4 = [param[param_name.index('BA_AI_Structure')]]
+param1 = [param[param_name.index('')], \
+          param[param_name.index('')], \
+		  param[param_name.index('')]]
+param2 = [param[param_name.index('')]]
+param3 = [param[param_name.index('')], \
+		  param[param_name.index('')], \
+		  param[param_name.index('')], \
+		  param[param_name.index('')], \
+		  param[param_name.index('')], \
+		  param[param_name.index('')]]
+param4 = [param[param_name.index('')]]
 
 
 
