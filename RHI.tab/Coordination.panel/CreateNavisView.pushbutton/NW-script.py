@@ -43,15 +43,21 @@ for el in collector3d:
     if el.ViewFamily == ViewFamily.ThreeDimensional:
         viewFamTypeId = el.Id
 
-views3d = []
+
+#views3d = []
 def create3D():
     view3d = View3D.CreateIsometric(doc, viewFamTypeId)
-    views3d.append(view3d)
+    #views3d.append(view3d)
     try:
         view3d.Name = "Navis"
+        print(view3d.DetailLevel)
+        #uidoc.ShowElements(view3d.Id)
+        print(uidoc.ActiveView())# = view3d
     except:
             doc.Delete(view3d.Id)
-    for  view3d in views3d:
+
+    #for  view3d in views3d:
+        #pass
 
 with db.Transaction('Create Navis View'):
     try:

@@ -2,7 +2,6 @@
 # pylint: skip-file
 # by Roman Golev 
 
-
 __doc__ = """
 Добавить общие параметры проекта /
 Add shared parameters
