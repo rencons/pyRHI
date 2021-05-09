@@ -3,7 +3,7 @@ __doc__ = """
 Checks if links are pinned and that link located on separated workset (started from ##Link_). 
 Fix these issues
 
-Проверяет закреплены ли связи и находится ли связь на отдельном рабочем наборе (начинающемся с ##Link_)
+Проверяет закреплены ли связи и находится ли связь в отдельном рабочем наборе (начинающемся с ##Link_).
 Исправляет эти ошибки 
 """
 

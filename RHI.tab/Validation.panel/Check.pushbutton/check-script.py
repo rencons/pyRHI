@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*- 
 __doc__ = """
-Checks if links are pinned and that link located on separated workset (started from ##Link_). 
-Fix these issues
+Check the consistency of the BIM Model and retrieves validation report of it's elighment to the EIR. 
 
-Проверяет закреплены ли связи и находится ли связь на отдельном рабочем наборе (начинающемся с ##Link_)
-Исправляет эти ошибки 
+Проверяет наполнение информационной модели, а также выдаёт отчёт о соответсвии информационным требованиям EIR заказчика.
 """
 
 
@@ -58,7 +56,7 @@ def file2ws_name(filename):
 
     return "##_{ext}_{filename}".format(ext=ext, filename=filename).upper()
 
-
+"""
 class Check(object):
     def __init__(self, elements):
 
@@ -204,6 +202,7 @@ def collect_links():
 
     return links
 
+"""
 
 def main():
     links = collect_links()

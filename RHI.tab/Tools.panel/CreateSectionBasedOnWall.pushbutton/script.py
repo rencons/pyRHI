@@ -5,7 +5,7 @@
 
 #TODO:Create Shared Parameter of there is no such parameter in project
 
-__doc__ = 'Создаёт разрез для выбранных стен. /Make Section based on seleccted walls.'
+__doc__ = 'Создаёт разрез для выбранных стен. / Make Section that is based on selected walls.'
 __author__ = 'Roman Golev'
 __title__ = "Создать\nРазрез"
 

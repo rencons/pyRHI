@@ -56,6 +56,10 @@ print(str(user) + ' : {}'.format(revit.username))
 print(str(Rvers) + ' : {}'.format(revit.version))
 print(str(Rvers) + ' : {}'.format(HOST_APP.subversion))
 
+#print current opened views
+print(uidoc.GetOpenUIViews())
+for v in uidoc.GetOpenUIViews():
+    print(v.ViewId)
 
 class MyWindow(WPFWindow):
     def __init__(self,xaml_file_name):
@@ -66,6 +70,7 @@ class MyWindow(WPFWindow):
     # @property
     # def checkbox2(self):
 	# 	return self.checkbox2_value.IsChecked
+
 
 
 # let's show the window (modal)
