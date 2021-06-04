@@ -18,7 +18,8 @@ clr.AddReference('RevitAPIUI')
 import pyrevit
 from pyrevit import forms
 from collections import namedtuple
-
+import rpw
+from rpw import db
 
 doc = __revit__.ActiveUIDocument.Document
 uidoc = __revit__.ActiveUIDocument
@@ -50,10 +51,28 @@ def create3D():
     view3d = View3D.CreateIsometric(doc, get3D_viewtype())
     try:
         view3d.Name = "Navis"
-        print(view3d.DetailLevel)
+        #print(view3d.HasDetailLevel())
+        print(view3d.Id)
+        
+        #Changes Detail Level to "Fine" of new Navis view
+        view3d.DetailLevel = ViewDetailLevel.Fine
+    
+        #Changes Display Style to "FlatColors" of new Navis view
+        view3d.DisplayStyle = DisplayStyle.FlatColors
+        
+
+        #TODO: Hide all anotation categories
+        #TODO: Set Medium Detail Level for Structural Framing, Structural Columns, etc..
+        #print(view3d.DetailLevel)
         #uidoc.ShowElements(view3d.Id)
         print(uidoc.ActiveView.Title)
-        print(view3d.Title)
+        print(uidoc.ActiveView)
+        #print(doc.GetElement(view3d.Id))
+        #uidoc.ActiveView = doc.GetElement(view3d.Id)
+        #print(view3d.Title)
+        return view3d
+
+        
     except:
         doc.Delete(view3d.Id)
 
@@ -73,9 +92,12 @@ def find_nw_view():
     elems = Autodesk.Revit.DB.FilteredElementCollector(doc).OfCategory(Autodesk.Revit.DB.BuiltInCategory.OST_Views).WhereElementIsNotElementType().ToElements()
     for elem in elems:
         if elem.ViewType == ViewType.ThreeD :
-            if "Navis" or "navis" in elem.Name:
+            if "Navis" in elem.Name:
                 navis3ds.append(elem)
-                #print(elem)
+                #print(elem.Name)
+            elif "navis" in elem.Name:
+                navis3ds.append(elem)
+                #print(elem.Name)
         else:
             pass
     return navis3ds
@@ -90,14 +112,17 @@ def find_nw_view():
 def check_views():
     if find_nw_view() != []:
         pyrevit.forms.alert_ifnot('Are you sure?',ok=False, yes=True, no=True, exitscript=True)
-        print 'alert'
+        print('alert')
 
 
 
-"""
+
 with db.Transaction('Create Navis View'):
     try:
-        create3D()
+        new3D = create3D()
     except:
         forms.alert("Error occured")
-"""
+
+
+if new3D != "":
+    uidoc.ActiveView = doc.GetElement(new3D.Id)
