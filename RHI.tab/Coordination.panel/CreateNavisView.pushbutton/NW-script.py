@@ -26,16 +26,6 @@ uidoc = __revit__.ActiveUIDocument
 uiapp = __revit__
 app = uiapp.Application
 
-# worksets = []
-# if doc.IsWorkshared == True:
-#     wsCollector = FilteredWorksetCollector(doc).ToWorksets()
-#     for workset in  wsCollector:
-#         if workset.Kind == Autodesk.Revit.DB.WorksetKind.UserWorkset:
-#             worksets.append(workset)
-#         else:
-#             pass
-# else:
-#     forms.alert("File is not workshared")
 
 def get3D_viewtype():
     collector3d = FilteredElementCollector(doc).OfClass(Autodesk.Revit.DB.ViewFamilyType).ToElements()
@@ -65,8 +55,13 @@ def create3D():
         #TODO: Set Medium Detail Level for Structural Framing, Structural Columns, etc..
         #print(view3d.DetailLevel)
         #uidoc.ShowElements(view3d.Id)
+<<<<<<< Updated upstream
         print(uidoc.ActiveView.Title)
         print(uidoc.ActiveView)
+=======
+        #print(uidoc.ActiveView.Title)
+        #print(uidoc.ActiveView)
+>>>>>>> Stashed changes
         #print(doc.GetElement(view3d.Id))
         #uidoc.ActiveView = doc.GetElement(view3d.Id)
         #print(view3d.Title)
@@ -78,6 +73,31 @@ def create3D():
 
     #for  view3d in views3d:
         #pass
+
+
+
+def collect_links():
+    """
+    Collects links from model in format
+    { LinkType: [LinkInstance, LinkInstance, ... ] }
+
+    :return:
+    dict
+    """
+
+    links = {}
+
+    cl = FilteredElementCollector(doc).OfCategory(
+        BuiltInCategory.OST_RvtLinks).WhereElementIsNotElementType().ToElementIds()
+    for e_id in cl:
+        e = doc.GetElement(e_id)
+        type_id = e.GetTypeId()
+        if type_id not in links:
+            links[type_id] = []
+        links[type_id].append(e)
+
+    return links
+
 
 def make_nwview_active():
     
@@ -93,11 +113,19 @@ def find_nw_view():
     for elem in elems:
         if elem.ViewType == ViewType.ThreeD :
             if "Navis" in elem.Name:
+<<<<<<< Updated upstream
                 navis3ds.append(elem)
                 #print(elem.Name)
             elif "navis" in elem.Name:
                 navis3ds.append(elem)
                 #print(elem.Name)
+=======
+                navis3ds.append(elem)
+                #print(elem.Name)
+            elif "navis" in elem.Name:
+                navis3ds.append(elem)
+                #print(elem.Name)
+>>>>>>> Stashed changes
         else:
             pass
     return navis3ds
@@ -125,4 +153,8 @@ with db.Transaction('Create Navis View'):
 
 
 if new3D != "":
+<<<<<<< Updated upstream
     uidoc.ActiveView = doc.GetElement(new3D.Id)
+=======
+    uidoc.ActiveView = doc.GetElement(new3D.Id)
+>>>>>>> Stashed changes

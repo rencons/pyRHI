@@ -56,7 +56,7 @@ def file2ws_name(filename):
 
     return "##_{ext}_{filename}".format(ext=ext, filename=filename).upper()
 
-"""
+
 class Check(object):
     def __init__(self, elements):
 
@@ -181,13 +181,13 @@ class CheckWorkset(Check):
 
 
 def collect_links():
-    """
+    
     Collects links from model in format
     { LinkType: [LinkInstance, LinkInstance, ... ] }
 
     :return:
     dict
-    """
+    
 
     links = {}
 
@@ -202,12 +202,12 @@ def collect_links():
 
     return links
 
-"""
+
 
 def main():
     links = collect_links()
     if doc.IsWorkshared:
-        CheckWorkset(links).run()
+            (links).run()
     CheckPinned(links).run()
 
 
