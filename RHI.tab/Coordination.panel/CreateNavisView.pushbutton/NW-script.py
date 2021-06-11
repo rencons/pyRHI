@@ -55,13 +55,8 @@ def create3D():
         #TODO: Set Medium Detail Level for Structural Framing, Structural Columns, etc..
         #print(view3d.DetailLevel)
         #uidoc.ShowElements(view3d.Id)
-<<<<<<< Updated upstream
-        print(uidoc.ActiveView.Title)
-        print(uidoc.ActiveView)
-=======
         #print(uidoc.ActiveView.Title)
         #print(uidoc.ActiveView)
->>>>>>> Stashed changes
         #print(doc.GetElement(view3d.Id))
         #uidoc.ActiveView = doc.GetElement(view3d.Id)
         #print(view3d.Title)
@@ -113,19 +108,11 @@ def find_nw_view():
     for elem in elems:
         if elem.ViewType == ViewType.ThreeD :
             if "Navis" in elem.Name:
-<<<<<<< Updated upstream
                 navis3ds.append(elem)
                 #print(elem.Name)
             elif "navis" in elem.Name:
                 navis3ds.append(elem)
                 #print(elem.Name)
-=======
-                navis3ds.append(elem)
-                #print(elem.Name)
-            elif "navis" in elem.Name:
-                navis3ds.append(elem)
-                #print(elem.Name)
->>>>>>> Stashed changes
         else:
             pass
     return navis3ds
@@ -153,8 +140,4 @@ with db.Transaction('Create Navis View'):
 
 
 if new3D != "":
-<<<<<<< Updated upstream
     uidoc.ActiveView = doc.GetElement(new3D.Id)
-=======
-    uidoc.ActiveView = doc.GetElement(new3D.Id)
->>>>>>> Stashed changes
