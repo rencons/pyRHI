@@ -26,7 +26,6 @@ uidoc = __revit__.ActiveUIDocument
 uiapp = __revit__
 app = uiapp.Application
 
-
 def get3D_viewtype():
     collector3d = FilteredElementCollector(doc).OfClass(Autodesk.Revit.DB.ViewFamilyType).ToElements()
     for el in collector3d:
@@ -36,6 +35,71 @@ def get3D_viewtype():
         else:
             0
 
+def make_active(a):
+    uidoc.ActiveView = doc.GetElement(a.Id)
+    print("make active 2")
+    pass
+
+class nw:  
+    def __init__(self, Document):
+        self.doc = Document
+        self.navis3ds = []
+
+
+    def find_ex(self):
+        get3D_viewtype()
+        navis3ds=[]
+        elems = Autodesk.Revit.DB.FilteredElementCollector(doc).OfCategory(Autodesk.Revit.DB.BuiltInCategory.OST_Views).WhereElementIsNotElementType().ToElements()
+        for elem in elems:
+            if elem.ViewType == ViewType.ThreeD :
+                if "Navis" in elem.Name:
+                    navis3ds.append(elem)
+                    #print(elem.Name)
+                elif "navis" in elem.Name:
+                    navis3ds.append(elem)
+                    #print(elem.Name)
+            else:
+                pass
+        return navis3ds
+
+
+
+
+msg = """Existing Navisworks view detected. Do you want to delete existing and create new one?"""
+ops = ['Delete all and create new View','Keep existing']
+cfgs = {'option1': { 'background': '0xFF55FF'}}
+nwex = nw(doc).find_ex()
+print(nwex)
+
+if nwex == []:
+    print("create3D")
+
+elif nwex != []:
+    #options = pyrevit.forms.alert(msg, ok=False, yes=True, no=True, exitscript=True)
+    options = forms.CommandSwitchWindow.show(ops, 
+                                             message='Existing Navisworks view/views detected. What Would you like to do?',
+                                             config=cfgs,)
+    #print(options)
+    if options == "Delete all and create new View":
+        print(1)
+        #Delete all existing Navis views
+
+        #Create new 3D View
+        
+        #Make new 3D Active  
+    elif options == "Keep existing":
+        print("make active 0")
+        make_active(nwex)
+        print("make active 1")
+    print(options)
+
+
+
+"""
+
+
+
+
 
 def create3D():
     view3d = View3D.CreateIsometric(doc, get3D_viewtype())
@@ -44,7 +108,7 @@ def create3D():
         #print(view3d.HasDetailLevel())
         print(view3d.Id)
         
-        #Changes Detail Level to "Fine" of new Navis view
+        #Change Detail Level to "Fine" of new Navis view
         view3d.DetailLevel = ViewDetailLevel.Fine
     
         #Changes Display Style to "FlatColors" of new Navis view
@@ -60,7 +124,7 @@ def create3D():
         #print(doc.GetElement(view3d.Id))
         #uidoc.ActiveView = doc.GetElement(view3d.Id)
         #print(view3d.Title)
-        return view3d
+        return viewd
 
         
     except:
@@ -72,13 +136,12 @@ def create3D():
 
 
 def collect_links():
-    """
-    Collects links from model in format
-    { LinkType: [LinkInstance, LinkInstance, ... ] }
+    
+    #Collects links from model in format
+    #{ LinkType: [LinkInstance, LinkInstance, ... ] }
 
-    :return:
-    dict
-    """
+    #:return:
+    
 
     links = {}
 
@@ -94,42 +157,10 @@ def collect_links():
     return links
 
 
-def make_nwview_active():
-    
-    # = view3d
-    #print(uidoc.ActiveView.GetOpenUIViews())
-    #uidoc.ActiveView.Set(view3d)
-    #uidoc.ActiveView.Set()
-    pass
-
-def find_nw_view():
-    navis3ds=[]
-    elems = Autodesk.Revit.DB.FilteredElementCollector(doc).OfCategory(Autodesk.Revit.DB.BuiltInCategory.OST_Views).WhereElementIsNotElementType().ToElements()
-    for elem in elems:
-        if elem.ViewType == ViewType.ThreeD :
-            if "Navis" in elem.Name:
-                navis3ds.append(elem)
-                #print(elem.Name)
-            elif "navis" in elem.Name:
-                navis3ds.append(elem)
-                #print(elem.Name)
-        else:
-            pass
-    return navis3ds
-
 
 #views3d = []
 #with db.Transaction('Create Navis View'):
 #    print(create3D())
-
-
-#print find_nw_view()
-def check_views():
-    if find_nw_view() != []:
-        pyrevit.forms.alert_ifnot('Are you sure?',ok=False, yes=True, no=True, exitscript=True)
-        print('alert')
-
-
 
 
 with db.Transaction('Create Navis View'):
@@ -139,5 +170,8 @@ with db.Transaction('Create Navis View'):
         forms.alert("Error occured")
 
 
-if new3D != "":
+if new3D != None:
     uidoc.ActiveView = doc.GetElement(new3D.Id)
+
+
+"""
