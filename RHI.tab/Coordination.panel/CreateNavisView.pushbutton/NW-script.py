@@ -55,13 +55,44 @@ class nw:
                 if "Navis" in elem.Name:
                     navis3ds.append(elem)
                     #print(elem.Name)
+                    print(elem.ViewTemplateId)
+                    #print(elem.AreAnnotationCategoriesHidden)
                 elif "navis" in elem.Name:
                     navis3ds.append(elem)
                     #print(elem.Name)
+                    print(elem.ViewTemplateId)
             else:
                 pass
         return navis3ds
 
+    def create3D(self):
+        view3d = Autodesk.Revit.DB.View3D.CreateIsometric(doc, get3D_viewtype())
+        try:
+            view3d.Name = "Navis"
+            #print(view3d.HasDetailLevel())
+            #print(view3d.Id)
+            
+            #Change Detail Level to "Fine" of new Navis view
+            view3d.DetailLevel = ViewDetailLevel.Fine
+        
+            #Changes Display Style to "FlatColors" of new Navis view
+            view3d.DisplayStyle = DisplayStyle.FlatColors
+            
+            #Hide all annotations categories on view
+            view3d.AreAnnotationCategoriesHidden = True
+            
+            #TODO: Hide all anotation categories
+            #TODO: Set Medium Detail Level for Structural Framing, Structural Columns, etc..
+            #print(view3d.DetailLevel)
+            #uidoc.ShowElements(view3d.Id)
+            #print(uidoc.ActiveView.Title)
+            #print(uidoc.ActiveView)
+            #print(doc.GetElement(view3d.Id))
+            #uidoc.ActiveView = doc.GetElement(view3d.Id)
+            #print(view3d.Title)
+            return view3d
+        except:
+            return 'Error in creating 3D View'
 
 
 
@@ -69,10 +100,14 @@ msg = """Existing Navisworks view detected. Do you want to delete existing and c
 ops = ['Delete all and create new View','Keep existing']
 cfgs = {'option1': { 'background': '0xFF55FF'}}
 nwex = nw(doc).find_ex()
-print(nwex)
+#print(nwex)
 
 if nwex == []:
-    print("create3D")
+    #print("create3D")
+    with db.Transaction('Create Navis View'):
+        nwnew = nw(doc).create3D()
+    make_active(nwnew)
+    #print(nwnew.Id)
 
 elif nwex != []:
     #options = pyrevit.forms.alert(msg, ok=False, yes=True, no=True, exitscript=True)
@@ -83,68 +118,24 @@ elif nwex != []:
     if options == "Delete all and create new View":
         print(1)
         #Delete all existing Navis views
-
         #Create new 3D View
-        
         #Make new 3D Active  
     elif options == "Keep existing":
         print("make active 0")
-        make_active(nwex)
+        make_active(nwex[0])
         print("make active 1")
+
     print(options)
 
 
 
 """
-
-
-
-
-
-def create3D():
-    view3d = View3D.CreateIsometric(doc, get3D_viewtype())
-    try:
-        view3d.Name = "Navis"
-        #print(view3d.HasDetailLevel())
-        print(view3d.Id)
-        
-        #Change Detail Level to "Fine" of new Navis view
-        view3d.DetailLevel = ViewDetailLevel.Fine
-    
-        #Changes Display Style to "FlatColors" of new Navis view
-        view3d.DisplayStyle = DisplayStyle.FlatColors
-        
-
-        #TODO: Hide all anotation categories
-        #TODO: Set Medium Detail Level for Structural Framing, Structural Columns, etc..
-        #print(view3d.DetailLevel)
-        #uidoc.ShowElements(view3d.Id)
-        #print(uidoc.ActiveView.Title)
-        #print(uidoc.ActiveView)
-        #print(doc.GetElement(view3d.Id))
-        #uidoc.ActiveView = doc.GetElement(view3d.Id)
-        #print(view3d.Title)
-        return viewd
-
-        
-    except:
-        doc.Delete(view3d.Id)
-
-    #for  view3d in views3d:
-        #pass
-
-
-
 def collect_links():
     
     #Collects links from model in format
     #{ LinkType: [LinkInstance, LinkInstance, ... ] }
-
     #:return:
-    
-
     links = {}
-
     cl = FilteredElementCollector(doc).OfCategory(
         BuiltInCategory.OST_RvtLinks).WhereElementIsNotElementType().ToElementIds()
     for e_id in cl:
@@ -153,7 +144,6 @@ def collect_links():
         if type_id not in links:
             links[type_id] = []
         links[type_id].append(e)
-
     return links
 
 
@@ -161,14 +151,11 @@ def collect_links():
 #views3d = []
 #with db.Transaction('Create Navis View'):
 #    print(create3D())
-
-
 with db.Transaction('Create Navis View'):
     try:
         new3D = create3D()
     except:
         forms.alert("Error occured")
-
 
 if new3D != None:
     uidoc.ActiveView = doc.GetElement(new3D.Id)
