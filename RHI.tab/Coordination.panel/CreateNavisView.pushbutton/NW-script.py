@@ -80,7 +80,9 @@ class nw:
             
             #Hide all annotations categories on view
             view3d.AreAnnotationCategoriesHidden = True
-            
+
+
+
             #TODO: Hide all anotation categories
             #TODO: Set Medium Detail Level for Structural Framing, Structural Columns, etc..
             #print(view3d.DetailLevel)
@@ -94,21 +96,46 @@ class nw:
         except:
             return 'Error in creating 3D View'
 
+    def collect_links(self):
+        #Autodesk.Revit.DB.View.HideElements()
+        #Collects links from model in format
+        #{ LinkType: [LinkInstance, LinkInstance, ... ] }
+        #:return:
+        links = {}
+        cl = FilteredElementCollector(doc).OfCategory(
+            BuiltInCategory.OST_RvtLinks).WhereElementIsNotElementType().ToElementIds()
+        #cll = FilteredElementCollector(doc).OfCategory(
+        #    BuiltInCategory.OST_RvtLinks).OfClass(typeof(RevitLinkInstance)).ToElementIds()
+        #print(i for i in cl)#,cll)
+        for e_id in cl:
+            e = doc.GetElement(e_id)
+            type_id = e.GetTypeId()
+            if type_id not in links:
+                links[type_id] = []
+            links[type_id].append(e_id)
+        return links
 
 
 msg = """Existing Navisworks view detected. Do you want to delete existing and create new one?"""
 ops = ['Delete all and create new View','Keep existing']
 cfgs = {'option1': { 'background': '0xFF55FF'}}
 nwex = nw(doc).find_ex()
-#print(nwex)
+#print(nw(doc).collect_links())
+
+#(https://forums.autodesk.com/t5/revit-api-forum/hide-unhide-revitlinkinstance-in-visibility-settings/td-p/8194955)
 
 if nwex == []:
-    #print("create3D")
+    #create3D View here with built-in setup
     with db.Transaction('Create Navis View'):
         nwnew = nw(doc).create3D()
     make_active(nwnew)
-    #print(nwnew.Id)
-
+    with db.Transaction('Create Navis View1'):
+        #Collect links with method
+        for i in nw(doc).collect_links():
+            print(i)
+            #Autodesk.Revit.DB.View.HideElements(i)
+            doc.ActiveView.HideElements(FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_RvtLinks).WhereElementIsNotElementType().ToElementIds())
+        
 elif nwex != []:
     #options = pyrevit.forms.alert(msg, ok=False, yes=True, no=True, exitscript=True)
     options = forms.CommandSwitchWindow.show(ops, 
@@ -129,24 +156,10 @@ elif nwex != []:
 
 
 
+
+
+
 """
-def collect_links():
-    
-    #Collects links from model in format
-    #{ LinkType: [LinkInstance, LinkInstance, ... ] }
-    #:return:
-    links = {}
-    cl = FilteredElementCollector(doc).OfCategory(
-        BuiltInCategory.OST_RvtLinks).WhereElementIsNotElementType().ToElementIds()
-    for e_id in cl:
-        e = doc.GetElement(e_id)
-        type_id = e.GetTypeId()
-        if type_id not in links:
-            links[type_id] = []
-        links[type_id].append(e)
-    return links
-
-
 
 #views3d = []
 #with db.Transaction('Create Navis View'):
