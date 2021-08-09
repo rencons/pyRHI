@@ -182,11 +182,11 @@ class CheckWorkset(Check):
 
 def collect_links():
     
-    Collects links from model in format
-    { LinkType: [LinkInstance, LinkInstance, ... ] }
-
-    :return:
-    dict
+    #Collects links from model in format
+    #{ LinkType: [LinkInstance, LinkInstance, ... ] }
+    #
+    #:return:
+    #dict
     
 
     links = {}
