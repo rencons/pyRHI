@@ -62,33 +62,26 @@ class nw:
         view3d = Autodesk.Revit.DB.View3D.CreateIsometric(doc, get3D_viewtype())
         try:
             view3d.Name = "Navis"
-            #print(view3d.HasDetailLevel())
-            #print(view3d.Id)
-            
-            #Change Detail Level to "Fine" of new Navis view
-            view3d.DetailLevel = ViewDetailLevel.Fine
-        
-            #Changes Display Style to "FlatColors" of new Navis view
-            view3d.DisplayStyle = DisplayStyle.FlatColors
-            
             #Hide all annotations, import, point clouds on view
             view3d.AreAnnotationCategoriesHidden = True
             view3d.AreImportCategoriesHidden = True
             view3d.ArePointCloudsHidden = True
+
+            if nw(doc).define_file_name() == 0:
+                #Change Detail Level to "Fine" of new Navis view
+                view3d.DetailLevel = ViewDetailLevel.Fine
+            elif nw(doc).define_file_name() == 1:   
+                view3d.DetailLevel = ViewDetailLevel.Medium
+            else:
+                view3d.DetailLevel = ViewDetailLevel.Fine
+            #Changes Display Style to "FlatColors" of new Navis view
+            view3d.DisplayStyle = DisplayStyle.FlatColors
             
             if option1 == 1:
                 view3d.HideElements(nw(doc).collect_links())
             else:
                 pass
 
-            #TODO: Set Medium Detail Level for Structural Framing, Structural Columns, etc..
-            #print(view3d.DetailLevel)
-            #uidoc.ShowElements(view3d.Id)
-            #print(uidoc.ActiveView.Title)
-            #print(uidoc.ActiveView)
-            #print(doc.GetElement(view3d.Id))
-            #uidoc.ActiveView = doc.GetElement(view3d.Id)
-            #print(view3d.Title)
             return view3d
         except:
             return 'Error in creating 3D View'
@@ -105,8 +98,11 @@ class nw:
         return cl
 
     def define_file_name(self):
-        print(doc.Title)
-        pass
+        #print(doc.Title)
+        if "KM" or "КМ" or "EKM" in doc.Title:
+            return 1
+        else:
+            return 0
 
 
 msg = """Existing Navisworks view detected. Do you want to delete existing and create new one?"""
@@ -124,7 +120,8 @@ if nwex == []:
 
 elif nwex != []:
     options = forms.CommandSwitchWindow.show(ops, 
-                                             message='Existing Navisworks view/views detected. What Would you like to do?',
+                                             message="""Existing Navisworks view/views detected. What would you like to do? 
+                                             Обнаружен существующий вид/виды 'Navisworks'. Что выполнить далее? """,
                                              config=cfgs,)
     if options == "Delete all and create new View":
         #print("Delete all and create new View")
@@ -136,11 +133,17 @@ elif nwex != []:
         nw(doc).define_file_name()
         with db.Transaction("Delete Existing 'Navis' views"):
             for el_nw in nwex:
+                #print(el_nw.Id)
                 doc.Delete(el_nw.Id)  
             nwnew = nw(doc).create3D(1)
-            #doc.Delete(def3D)               
+            #print(def3D,def3D.Id.ToString())
+            #doc.Delete(def3D.Id)  
         make_active(nwnew)
+        with db.Transaction("Delete dummy 3D view"):   
+           doc.Delete(def3D.Id)
     elif options == "Keep existing":
-        print("make active 0")
-        make_active(nwex[0])
-
+        try:
+            make_active(nwex[0])
+        except:
+            pass
+        pass
