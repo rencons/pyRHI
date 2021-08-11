@@ -4,29 +4,47 @@
 # Reference information:
 #(https://forums.autodesk.com/t5/revit-api-forum/hide-unhide-revitlinkinstance-in-visibility-settings/td-p/8194955)
 
-__doc__ = 'Создаёт 3D вид Navis. /Creates Navis 3D view.'
+__doc__ = """Создаёт 3D вид Navis. /Creates Navis 3D view.
+
+Creates new 3D View for Navisworks export (Hides all annotations, imports, etc.) \
+Searches for existing 3D Views, gives an option to delete existing view and \
+create new one or preserve existed. 
+
+Shift+Click — Keeps linked RVT files visible (for EFM coordination files) \
+---------------------------------------------------------------------
+
+Создаёт новый 3D вид Navisworks (скрывает аннотации, импорт DWG и т.д) \
+Производит поиск существующих 3D видов и в случае наличия существуюего вида \
+даёт возможность удалить и создать новый или оставить текущий. 
+
+Shift+Click — Оставляет включенными связи RVT (для файлов промежуточной \
+координации EFM) 
+"""
 __author__ = 'Roman Golev'
-__title__ = "Navis\n3D View"
+__title__ = "Create Navis\n View"
+#__helpurl__ = ""
 
 import clr
 clr.AddReference("RevitAPI")
 import Autodesk
 from Autodesk.Revit.DB import *
 from Autodesk.Revit.UI import *
-from Autodesk.Revit.DB import AssemblyViewUtils
-from Autodesk.Revit.DB import FilteredWorksetCollector
-import System
+
+clr.AddReference('System')
 clr.AddReference('RevitAPIUI')
 import pyrevit
 from pyrevit import forms
-from collections import namedtuple
-import rpw
-from rpw import db
+
 
 doc = __revit__.ActiveUIDocument.Document
 uidoc = __revit__.ActiveUIDocument
 uiapp = __revit__
 app = uiapp.Application
+t = Autodesk.Revit.DB.Transaction(doc)
+msg = """Existing Navisworks view detected. Do you want to delete existing and create new one?"""
+ops = ['Delete all and create new View','Keep existing']
+cfgs = {'option1': { 'background': '0xFF55FF'}}
+
 
 def get3D_viewtype():
     collector3d = FilteredElementCollector(doc).OfClass(Autodesk.Revit.DB.ViewFamilyType).ToElements()
@@ -66,6 +84,8 @@ class nw:
             view3d.AreAnnotationCategoriesHidden = True
             view3d.AreImportCategoriesHidden = True
             view3d.ArePointCloudsHidden = True
+            #Changes Display Style to "FlatColors" of new Navis view
+            view3d.DisplayStyle = DisplayStyle.FlatColors
 
             if nw(doc).define_file_name() == 0:
                 #Change Detail Level to "Fine" of new Navis view
@@ -74,11 +94,12 @@ class nw:
                 view3d.DetailLevel = ViewDetailLevel.Medium
             else:
                 view3d.DetailLevel = ViewDetailLevel.Fine
-            #Changes Display Style to "FlatColors" of new Navis view
-            view3d.DisplayStyle = DisplayStyle.FlatColors
-            
+
             if option1 == 1:
-                view3d.HideElements(nw(doc).collect_links())
+                try:
+                    view3d.HideElements(nw(doc).collect_links())
+                except:
+                    pass
             else:
                 pass
 
@@ -105,45 +126,68 @@ class nw:
             return 0
 
 
-msg = """Existing Navisworks view detected. Do you want to delete existing and create new one?"""
-ops = ['Delete all and create new View','Keep existing']
-cfgs = {'option1': { 'background': '0xFF55FF'}}
-nwex = nw(doc).find_ex()
+def main():
+    nwex = nw(doc).find_ex()
+    #links_on = 0
+    if __shiftclick__:
+        links_on = 0
+    else :
+        links_on = 1
 
-
-
-if nwex == []:
-    #create3D View here with built-in setup
-    with db.Transaction('Create Navis View'):
-        nwnew = nw(doc).create3D(1)
-    make_active(nwnew)
-
-elif nwex != []:
-    options = forms.CommandSwitchWindow.show(ops, 
-                                             message="""Existing Navisworks view/views detected. What would you like to do? 
-                                             Обнаружен существующий вид/виды 'Navisworks'. Что выполнить далее? """,
-                                             config=cfgs,)
-    if options == "Delete all and create new View":
-        #print("Delete all and create new View")
-        #Create Default 3D
-        with db.Transaction("Create dummy 3D view"):
-            def3D = nw(doc).create_default3D()
-        make_active(def3D)
-        #Delete all existing Navis views
-        nw(doc).define_file_name()
-        with db.Transaction("Delete Existing 'Navis' views"):
-            for el_nw in nwex:
-                #print(el_nw.Id)
-                doc.Delete(el_nw.Id)  
-            nwnew = nw(doc).create3D(1)
-            #print(def3D,def3D.Id.ToString())
-            #doc.Delete(def3D.Id)  
-        make_active(nwnew)
-        with db.Transaction("Delete dummy 3D view"):   
-           doc.Delete(def3D.Id)
-    elif options == "Keep existing":
+    if nwex == []:
+        t.Start("Create Navis View")
         try:
-            make_active(nwex[0])
+            nwnew = nw(doc).create3D(links_on)
+            t.Commit()
+            make_active(nwnew)
         except:
+            t.RollBack()
+            pyrevit.forms.alert("Error")
+
+
+    elif nwex != []:
+        options = forms.CommandSwitchWindow.show(ops, 
+                                                message="""What would you like to do? / Что выполнить далее? """,
+                                                config=cfgs,)
+        if options == "Delete all and create new View":
+            
+            #Create Default 3D
+            try:
+                t.Start("Create dummy 3D view")
+                def3D = nw(doc).create_default3D()
+                t.Commit()
+            except:
+                t.RollBack()
+                pyrevit.forms.alert("Error")                
+            make_active(def3D)
+
+            #Delete all existing Navis views and create new
+            nw(doc).define_file_name()
+            try:
+                t.Start("Delete Existing 'Navis' views")
+                for el_nw in nwex:
+                    doc.Delete(el_nw.Id)
+                nwnew = nw(doc).create3D(links_on)
+                t.Commit()
+            except:
+                t.RollBack()
+                pyrevit.forms.alert("Error")
+            make_active(nwnew)
+
+            #Delete dummy 3d view
+            try:
+                t.Start("Delete dummy 3D view")  
+                doc.Delete(def3D.Id)
+                t.Commit()
+            except:
+                t.RollBack()
+                pyrevit.forms.alert("Error")
+        elif options == "Keep existing":
+            try:
+                make_active(nwex[0])
+            except:
+                pass
             pass
-        pass
+
+if __name__ == '__main__':
+    main()
