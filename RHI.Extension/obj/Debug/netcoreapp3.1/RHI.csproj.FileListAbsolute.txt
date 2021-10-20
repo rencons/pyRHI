@@ -1,0 +1,5 @@
+C:\Users\rvgol\Documents\github\rencons\pyRHI\RHI.Extension\obj\Debug\netcoreapp3.1\RHI.csproj.AssemblyReference.cache
+C:\Users\rvgol\Documents\github\rencons\pyRHI\RHI.Extension\obj\Debug\netcoreapp3.1\RHI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rvgol\Documents\github\rencons\pyRHI\RHI.Extension\obj\Debug\netcoreapp3.1\RHI.AssemblyInfoInputs.cache
+C:\Users\rvgol\Documents\github\rencons\pyRHI\RHI.Extension\obj\Debug\netcoreapp3.1\RHI.AssemblyInfo.cs
+C:\Users\rvgol\Documents\github\rencons\pyRHI\RHI.Extension\obj\Debug\netcoreapp3.1\RHI.csproj.CoreCompileInputs.cache
