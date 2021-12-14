@@ -1,8 +1,36 @@
 {
   "version": 2,
-  "dgSpecHash": "aFirxhGbz3cDMxshXIvrxpChuOEQz118WTA/bV0lcJX4zysgX7MNT0aOiyD54ydwpZpFqQdbhf/JLhJ/gGh7yw==",
-  "success": true,
-  "projectFilePath": "C:\\Users\\rvgol\\Documents\\github\\rencons\\pyRHI\\RHI.Extension\\RHI.csproj",
+  "dgSpecHash": "hIKoxLJK/dkn29Wn9b6dX6aOUmQVq0OCl0Z2EyI80ccOWJ2xQABRP5mFACRWR5IavMV9+ByQLF0d3hZxJnd8Uw==",
+  "success": false,
+  "projectFilePath": "C:\\Users\\rogolev\\Documents\\github\\rencons\\pyRHI\\RHI.Extension\\RHI.csproj",
   "expectedPackageFiles": [],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1101",
+      "level": "Error",
+      "message": "Unable to find package Microsoft.AspNetCore.App.Ref. No packages exist with this id in source(s): Microsoft Visual Studio Offline Packages",
+      "libraryId": "Microsoft.AspNetCore.App.Ref",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.0"
+      ]
+    },
+    {
+      "code": "NU1101",
+      "level": "Error",
+      "message": "Unable to find package Microsoft.WindowsDesktop.App.Ref. No packages exist with this id in source(s): Microsoft Visual Studio Offline Packages",
+      "libraryId": "Microsoft.WindowsDesktop.App.Ref",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.0"
+      ]
+    },
+    {
+      "code": "NU1101",
+      "level": "Error",
+      "message": "Unable to find package Microsoft.NETCore.App.Ref. No packages exist with this id in source(s): Microsoft Visual Studio Offline Packages",
+      "libraryId": "Microsoft.NETCore.App.Ref",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.0"
+      ]
+    }
+  ]
 }

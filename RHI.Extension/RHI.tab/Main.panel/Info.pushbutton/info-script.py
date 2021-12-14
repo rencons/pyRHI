@@ -20,25 +20,36 @@ __title__ = "RHI\nExtension Info"
 __author__ = "Roman Golev"
 __context__ = 'zero-doc'
 
-
-import pyrevit
-from pyrevit import script
-from pyrevit import output
-from pyrevit import forms
-import rpw
-from rpw import revit, ui
-import os
-import os.path as op
-
 # Import WPF
 import clr
 clr.AddReference('IronPython.Wpf')
-import wpf
+#import wpf
 from System import Windows
 clr.AddReference('System.Windows.Forms')
 clr.AddReference('IronPython.Wpf')
 
 
+import pyrevit
+from pyrevit import script
+from pyrevit import output
+from pyrevit import forms
+from pyrevit.forms import WPFWindow
+import rpw
+from rpw import revit, ui
+import sys
+import os
+import os.path as op
+
+doc = __revit__.ActiveUIDocument.Document
+uidoc = __revit__.ActiveUIDocument
+uiapp = __revit__
+app = uiapp.Application
+
+
+
+
+
+"""
 parent = op.dirname
 svg = parent(__file__) + r"\rhi.svg"
 
@@ -56,10 +67,13 @@ print(str(user) + ' : {}'.format(revit.username))
 print(str(Rvers) + ' : {}'.format(revit.version))
 print(str(Rvers) + ' : {}'.format(HOST_APP.subversion))
 
+
 #print current opened views
 print(uidoc.GetOpenUIViews())
 for v in uidoc.GetOpenUIViews():
     print(v.ViewId)
+"""
+
 
 class MyWindow(WPFWindow):
     def __init__(self,xaml_file_name):

@@ -25,9 +25,6 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="ui.xaml" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
       <Name>mscorlib</Name>
       <Private>False</Private>
@@ -51,6 +48,12 @@
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="IronPython|2.7-32" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\ui.xaml">
+      <Link>ui.xaml</Link>
+    </Content>
+    <Content Include="rhi.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

@@ -4,10 +4,10 @@
 # by Roman Golev 
 
 
-__doc__ = """Открывает директорию с актуальным БИМ стандартом / Opens Folder With BIM Standard Location"""
-__title__ = "BIM Стандарт"
+__doc__ = """Открывает вэб приложение RHI HUB / Opens RHI HUB web application"""
+__title__ = "BIM HUB"
 __author__ = "Roman Golev"
 __context__ = 'zero-doc'
 
 import webbrowser
-webbrowser.open_new_tab("https://www.google.com/search?q=123&oq=123&aqs=edge..69i57j0l6.509j0j1&sourceid=chrome&ie=UTF-8")
+webbrowser.open_new_tab("https://forge-hub-rhi.herokuapp.com/")

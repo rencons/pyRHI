@@ -1,16 +1,17 @@
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Add Shared Parameters"
-        Width="400" ResizeMode="NoResize" SizeToContent="Height" Height="215">
+        Width="400" ResizeMode="NoResize" SizeToContent="Height" Height="228">
     <StackPanel Margin="10">
         <Label Content="Choose a Set of Shared Parameters" Margin="0,0,-0,0" Height="25" />
-        <RadioButton x:Name="checkbox1_value" Content="General" IsChecked="True"/>
-        <RadioButton x:Name="checkbox2_value" Content="Technology ETH"/>
-        <RadioButton x:Name="checkbox3_value" Content="Concrete EKZ"/>
-        <RadioButton x:Name="checkbox4_value" Content="Instrumental - Equipment"/>
-        <RadioButton x:Name="checkbox5_value" Content="Electro-Mechanical"/>
-        <RadioButton x:Name="checkbox6_value" Content="Steel Structures"/>
-        <RadioButton x:Name="checkbox7_value" Content="Water Supply / Sewarage"/>
+        <RadioButton x:Name="checkbox1_value" Content="RHI WBS Code Parameter" IsChecked="True"/>
+        <RadioButton x:Name="checkbox2_value" Content="General" />
+        <RadioButton x:Name="checkbox3_value" Content="Technology ETH"/>
+        <RadioButton x:Name="checkbox4_value" Content="Concrete EKZ"/>
+        <RadioButton x:Name="checkbox5_value" Content="Instrumental - Equipment"/>
+        <RadioButton x:Name="checkbox6_value" Content="Electro-Mechanical"/>
+        <RadioButton x:Name="checkbox7_value" Content="Steel Structures"/>
+        <RadioButton x:Name="checkbox8_value" Content="Water Supply / Sewarage"/>
         <Button Content="Add Shared Parameters to the active Project" Height="20" Margin="0,10,0,0" Click="click" />
     </StackPanel>
 </Window>
